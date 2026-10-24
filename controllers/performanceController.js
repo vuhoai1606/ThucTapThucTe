@@ -15,7 +15,7 @@ const PerformanceController = {
       }
 
       let query = `
-        SELECT pr.*, e.full_name as employee_name, e.department, e.position 
+        SELECT pr.*, COALESCE(e.full_name, pr.employee_name, 'Nhân viên') as employee_name, e.department, e.position 
         FROM performance_reviews pr 
         LEFT JOIN employees e ON pr.employee_id = e.id 
         WHERE 1=1

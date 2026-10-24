@@ -235,34 +235,129 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
-  // Populate Dropdown Helpers
-  function populateEmployeeSelect(selectId) {
-    const select = document.getElementById(selectId);
-    if (!select || !state.employees.length) return;
-    select.innerHTML = state.employees.map(e => `
-      <option value="${e.id}">${e.fullName} (${e.id}) - ${e.department} - ${e.position || e.role}</option>
-    `).join('');
+  // Populate Dropdown Helpers with Auto-Fetch
+  let fetchingEmployees = null;
+  async function ensureEmployeesLoaded() {
+    if (state.employees && state.employees.length) return state.employees;
+    if (fetchingEmployees) return await fetchingEmployees;
+    fetchingEmployees = (async () => {
+      try {
+        const res = await API.getEmployees({ limit: 500 });
+        if (res && res.success && Array.isArray(res.data)) {
+          state.employees = res.data;
+        }
+      } catch (err) {
+        console.error('Lỗi khi tải danh sách nhân viên cho dropdown:', err);
+      } finally {
+        fetchingEmployees = null;
+      }
+      return state.employees || [];
+    })();
+    return await fetchingEmployees;
   }
 
-  function populateProjectSelect(selectId) {
-    const select = document.getElementById(selectId);
-    if (!select || !state.projects.length) return;
-    select.innerHTML = state.projects.map(p => `
-      <option value="${p.id}">${p.name} (${p.id}) - FSU ${p.department}</option>
-    `).join('');
+  let fetchingProjects = null;
+  async function ensureProjectsLoaded() {
+    if (state.projects && state.projects.length) return state.projects;
+    if (fetchingProjects) return await fetchingProjects;
+    fetchingProjects = (async () => {
+      try {
+        const res = await API.getProjects();
+        if (res && res.success && Array.isArray(res.data)) {
+          state.projects = res.data;
+        }
+      } catch (err) {
+        console.error('Lỗi khi tải danh sách dự án cho dropdown:', err);
+      } finally {
+        fetchingProjects = null;
+      }
+      return state.projects || [];
+    })();
+    return await fetchingProjects;
   }
 
-  function populateAssetSelect(selectId) {
+  let fetchingAssets = null;
+  async function ensureAssetsLoaded() {
+    if (state.assets && state.assets.length) return state.assets;
+    if (fetchingAssets) return await fetchingAssets;
+    fetchingAssets = (async () => {
+      try {
+        const res = await API.getAssets();
+        if (res && res.success && Array.isArray(res.data)) {
+          state.assets = res.data;
+        }
+      } catch (err) {
+        console.error('Lỗi khi tải danh sách tài sản cho dropdown:', err);
+      } finally {
+        fetchingAssets = null;
+      }
+      return state.assets || [];
+    })();
+    return await fetchingAssets;
+  }
+
+  async function populateEmployeeSelect(selectId, placeholder = '-- Chọn nhân viên --') {
     const select = document.getElementById(selectId);
-    if (!select || !state.assets.length) return;
-    const avail = state.assets.filter(a => a.status === 'Available');
+    if (!select) return;
+    if (!state.employees || !state.employees.length) {
+      select.innerHTML = '<option value="">Đang tải danh sách nhân viên...</option>';
+      await ensureEmployeesLoaded();
+    }
+    if (!state.employees || !state.employees.length) {
+      select.innerHTML = '<option value="">-- Không có dữ liệu nhân viên --</option>';
+      return;
+    }
+    const currentVal = select.value;
+    select.innerHTML = `
+      <option value="">${placeholder}</option>
+      ${state.employees.map(e => `
+        <option value="${e.id}">${e.fullName} (${e.id}) - ${e.department} - ${e.position || e.role}</option>
+      `).join('')}
+    `;
+    if (currentVal) select.value = currentVal;
+  }
+
+  async function populateProjectSelect(selectId, placeholder = '-- Chọn dự án --') {
+    const select = document.getElementById(selectId);
+    if (!select) return;
+    if (!state.projects || !state.projects.length) {
+      select.innerHTML = '<option value="">Đang tải danh sách dự án...</option>';
+      await ensureProjectsLoaded();
+    }
+    if (!state.projects || !state.projects.length) {
+      select.innerHTML = '<option value="">-- Không có dự án nào --</option>';
+      return;
+    }
+    const currentVal = select.value;
+    select.innerHTML = `
+      <option value="">${placeholder}</option>
+      ${state.projects.map(p => `
+        <option value="${p.id}">${p.name} (${p.id}) - FSU ${p.department}</option>
+      `).join('')}
+    `;
+    if (currentVal) select.value = currentVal;
+  }
+
+  async function populateAssetSelect(selectId, placeholder = '-- Chọn thiết bị trống --') {
+    const select = document.getElementById(selectId);
+    if (!select) return;
+    if (!state.assets || !state.assets.length) {
+      select.innerHTML = '<option value="">Đang tải danh sách thiết bị...</option>';
+      await ensureAssetsLoaded();
+    }
+    const avail = (state.assets || []).filter(a => a.status === 'Available');
     if (!avail.length) {
       select.innerHTML = `<option value="">-- Không có thiết bị trống --</option>`;
       return;
     }
-    select.innerHTML = avail.map(a => `
-      <option value="${a.id}">${a.asset_code} - ${a.name} (${a.category})</option>
-    `).join('');
+    const currentVal = select.value;
+    select.innerHTML = `
+      <option value="">${placeholder}</option>
+      ${avail.map(a => `
+        <option value="${a.id}">${a.asset_code} - ${a.name} (${a.category})</option>
+      `).join('')}
+    `;
+    if (currentVal) select.value = currentVal;
   }
 
   // Bind All CRUD Modals
@@ -579,9 +674,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   function bindSkillsEvents() {
-    document.getElementById('assignSkillBtn')?.addEventListener('click', () => {
-      populateEmployeeSelect('skillEmployeeSelect');
+    document.getElementById('assignSkillBtn')?.addEventListener('click', async () => {
       document.getElementById('skillModal')?.classList.add('active');
+      await populateEmployeeSelect('skillEmployeeSelect');
     });
   }
 
@@ -594,10 +689,12 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   function bindResourcesEvents() {
-    document.getElementById('assignResourceBtn')?.addEventListener('click', () => {
-      populateProjectSelect('resProjectSelect');
-      populateEmployeeSelect('resEmployeeSelect');
+    document.getElementById('assignResourceBtn')?.addEventListener('click', async () => {
       document.getElementById('resourceModal')?.classList.add('active');
+      await Promise.all([
+        populateProjectSelect('resProjectSelect'),
+        populateEmployeeSelect('resEmployeeSelect')
+      ]);
     });
   }
 
@@ -627,9 +724,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   function bindPerformanceEvents() {
-    document.getElementById('addKpiBtn')?.addEventListener('click', () => {
-      populateEmployeeSelect('kpiEmployeeSelect');
-      document.getElementById('kpiModal')?.classList.add('active');
+    document.getElementById('addKpiBtn')?.addEventListener('click', async () => {
+      const modal = document.getElementById('kpiModal');
+      modal?.classList.add('active');
+      await populateEmployeeSelect('kpiEmployeeSelect');
     });
   }
 
@@ -644,10 +742,12 @@ document.addEventListener('DOMContentLoaded', async () => {
       document.getElementById('assetModal')?.classList.add('active');
     });
 
-    document.getElementById('assignAssetBtn')?.addEventListener('click', () => {
-      populateAssetSelect('assignAssetSelect');
-      populateEmployeeSelect('assignAssetEmpSelect');
+    document.getElementById('assignAssetBtn')?.addEventListener('click', async () => {
       document.getElementById('assignAssetModal')?.classList.add('active');
+      await Promise.all([
+        populateAssetSelect('assignAssetSelect'),
+        populateEmployeeSelect('assignAssetEmpSelect')
+      ]);
     });
   }
 
@@ -1772,14 +1872,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     const tbody = document.getElementById('performanceTableBody');
     if (!tbody || !res.success) return;
 
+    if (!res.data || res.data.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="9" style="text-align: center; padding: 24px; color: var(--text-light);">Chưa có dữ liệu đánh giá KPI nào. Nhấn nút "Đánh giá KPI Nhân viên" phía trên để tạo mới.</td></tr>`;
+      return;
+    }
+
     tbody.innerHTML = res.data.map(r => `
       <tr>
         <td><strong>${r.employee_name}</strong> (${r.employee_id})</td>
         <td><span class="badge badge-dept">${r.review_period}</span></td>
-        <td>${r.communication_score}/10</td>
-        <td>${r.technical_score}/10</td>
-        <td>${r.teamwork_score}/10</td>
-        <td>${r.leadership_score}/10</td>
+        <td>${r.communication_score ?? 8}/10</td>
+        <td>${r.technical_score ?? 8}/10</td>
+        <td>${r.teamwork_score ?? 8}/10</td>
+        <td>${r.leadership_score ?? 8}/10</td>
         <td><strong>${r.kpi_score} / 100</strong></td>
         <td><span class="badge badge-status active">${r.rating}</span></td>
         <td>${r.comments || ''}</td>
@@ -1941,13 +2046,26 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     document.querySelectorAll('.assign-this-asset-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
+      btn.addEventListener('click', async (e) => {
         const id = e.currentTarget.getAttribute('data-id');
-        populateAssetSelect('assignAssetSelect');
-        populateEmployeeSelect('assignAssetEmpSelect');
-        const assetSel = document.getElementById('assignAssetSelect');
-        if (assetSel) assetSel.value = id;
         document.getElementById('assignAssetModal')?.classList.add('active');
+        await Promise.all([
+          populateAssetSelect('assignAssetSelect'),
+          populateEmployeeSelect('assignAssetEmpSelect')
+        ]);
+        const assetSel = document.getElementById('assignAssetSelect');
+        if (assetSel) {
+          if (id && !Array.from(assetSel.options).some(opt => opt.value == id)) {
+            const targetAsset = (state.assets || []).find(a => a.id == id);
+            if (targetAsset) {
+              const newOpt = document.createElement('option');
+              newOpt.value = targetAsset.id;
+              newOpt.textContent = `${targetAsset.asset_code} - ${targetAsset.name} (${targetAsset.category})`;
+              assetSel.appendChild(newOpt);
+            }
+          }
+          assetSel.value = id;
+        }
       });
     });
   }

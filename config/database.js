@@ -298,6 +298,12 @@ const migrationAlterSQL = `
   ALTER TABLE assets ADD COLUMN IF NOT EXISTS assigned_date DATE;
   ALTER TABLE assets ADD COLUMN IF NOT EXISTS notes TEXT;
 
+  -- Ensure performance_reviews has detail score columns
+  ALTER TABLE performance_reviews ADD COLUMN IF NOT EXISTS communication_score INT DEFAULT 8;
+  ALTER TABLE performance_reviews ADD COLUMN IF NOT EXISTS technical_score INT DEFAULT 8;
+  ALTER TABLE performance_reviews ADD COLUMN IF NOT EXISTS teamwork_score INT DEFAULT 8;
+  ALTER TABLE performance_reviews ADD COLUMN IF NOT EXISTS leadership_score INT DEFAULT 8;
+
   -- Ensure leave_requests table has pm_approved & hr_approved columns and 2-step workflow (PM -> HR)
   ALTER TABLE leave_requests ADD COLUMN IF NOT EXISTS pm_approved BOOLEAN DEFAULT NULL;
   ALTER TABLE leave_requests ADD COLUMN IF NOT EXISTS hr_approved BOOLEAN DEFAULT NULL;
