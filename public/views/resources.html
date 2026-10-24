@@ -1,0 +1,34 @@
+<!-- RESOURCE ALLOCATION VIEW -->
+<div class="toolbar-card" style="margin-bottom: 20px; justify-content: space-between;">
+  <h3><i class="fas fa-chart-area" style="color: var(--fpt-green);"></i> Quản lý Phân bổ Nguồn lực (Resource Allocation)</h3>
+  <button id="assignResourceBtn" class="btn-primary rbac-pm-admin"><i class="fas fa-user-plus"></i> Phân bổ Nhân sự vào Dự án</button>
+</div>
+
+<div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px;">
+  <div class="table-card">
+    <div class="card-title" style="padding: 16px 20px; margin-bottom: 0; border-bottom: 1px solid var(--border-color);">
+      <h4><i class="fas fa-list"></i> Danh sách Phân bổ Hiện tại</h4>
+    </div>
+    <div class="table-responsive">
+      <table class="employee-table">
+        <thead>
+          <tr>
+            <th>Dự án</th>
+            <th>Nhân viên</th>
+            <th>Vai trò</th>
+            <th>% Allocation</th>
+            <th>Thao tác</th>
+          </tr>
+        </thead>
+        <tbody id="allocationsTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="chart-card">
+    <div class="card-title">
+      <h3><i class="fas fa-user-ninja" style="color: var(--primary-fpt);"></i> Bench Resources (Đang rảnh)</h3>
+    </div>
+    <div id="benchContainer" style="font-size: 13px;"></div>
+  </div>
+</div>

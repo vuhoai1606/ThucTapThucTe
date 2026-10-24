@@ -1,0 +1,40 @@
+const express = require('express');
+const router = express.Router();
+
+const authRoutes = require('./authRoutes');
+const employeeRoutes = require('./employeeRoutes');
+const departmentRoutes = require('./departmentRoutes');
+const positionRoutes = require('./positionRoutes');
+const skillRoutes = require('./skillRoutes');
+const projectRoutes = require('./projectRoutes');
+const resourceRoutes = require('./resourceRoutes');
+const leaveRoutes = require('./leaveRoutes');
+const payrollRoutes = require('./payrollRoutes');
+const performanceRoutes = require('./performanceRoutes');
+const trainingRoutes = require('./trainingRoutes');
+const recruitmentRoutes = require('./recruitmentRoutes');
+const assetRoutes = require('./assetRoutes');
+const notificationRoutes = require('./notificationRoutes');
+const dashboardRoutes = require('./dashboardRoutes');
+const settingRoutes = require('./settingRoutes');
+const statsRoutes = require('./statsRoutes');
+
+router.use('/auth', authRoutes);
+router.use('/employees', employeeRoutes);
+router.use('/departments', departmentRoutes);
+router.use('/positions', positionRoutes);
+router.use('/skills', skillRoutes);
+router.use('/projects', projectRoutes);
+router.use('/resources', resourceRoutes);
+router.use('/leave', leaveRoutes);
+router.use('/payroll', payrollRoutes);
+router.use('/performance', performanceRoutes);
+router.use('/training', trainingRoutes);
+router.use('/recruitment', recruitmentRoutes);
+router.use('/assets', assetRoutes);
+router.use('/notifications', notificationRoutes);
+router.use('/dashboard', dashboardRoutes);
+router.use('/settings', settingRoutes);
+router.use('/stats', statsRoutes);
+
+module.exports = router;

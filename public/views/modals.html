@@ -1,0 +1,612 @@
+<!-- ==========================================
+     REUSABLE CRUD MODALS CONTAINER
+     ========================================== -->
+
+<!-- MODAL: ADD/EDIT EMPLOYEE -->
+<div id="employeeModal" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 id="modalTitle">Thêm mới nhân viên FSOFT</h3>
+      <button id="closeModalBtn" class="close-modal-btn">&times;</button>
+    </div>
+
+    <form id="employeeForm">
+      <div class="form-grid">
+        <div class="form-group full-width">
+          <label for="empFullName">Họ và tên nhân viên *</label>
+          <input type="text" id="empFullName" placeholder="Nguyễn Văn A" required>
+        </div>
+
+        <div class="form-group">
+          <label for="empEmail">Email FPT *</label>
+          <input type="email" id="empEmail" placeholder="anv12@fpt.com" required>
+        </div>
+
+        <div class="form-group">
+          <label for="empPhone">Số điện thoại</label>
+          <input type="text" id="empPhone" placeholder="0912345678">
+        </div>
+
+        <div class="form-group">
+          <label for="empDepartment">Đơn vị công tác (FSU) *</label>
+          <select id="empDepartment" required>
+            <option value="GAT">GAT - Automotive Technologies</option>
+            <option value="GST">GST - Smart Technologies</option>
+            <option value="GAM">GAM - Aerospace</option>
+            <option value="DBS">DBS - Digital Business</option>
+            <option value="HR">HR - Human Resources</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="empRole">Chức danh công việc *</label>
+          <input type="text" id="empRole" placeholder="Senior Developer, PM..." required>
+        </div>
+
+        <div class="form-group">
+          <label for="empLevel">Level</label>
+          <select id="empLevel">
+            <option value="Junior">Junior</option>
+            <option value="Middle" selected>Middle</option>
+            <option value="Senior">Senior</option>
+            <option value="Lead">Lead</option>
+            <option value="Manager">Manager</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="empSalary">Lương hàng tháng (VND) * (Không được âm)</label>
+          <input type="number" id="empSalary" placeholder="20000000" min="0" step="100000" required>
+        </div>
+
+        <div class="form-group">
+          <label for="empSystemRole">Vai trò hệ thống (Role) *</label>
+          <select id="empSystemRole" required>
+            <option value="Employee" selected>Employee (Nhân viên)</option>
+            <option value="Project Manager">Project Manager (PM)</option>
+            <option value="HR">HR (Quản trị Nhân sự)</option>
+            <option value="Admin">Admin (Quản trị hệ thống)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" id="cancelModalBtn" class="btn-secondary">Hủy bỏ</button>
+        <button type="submit" class="btn-primary"><i class="fas fa-save"></i> Lưu thông tin</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL: ADD/EDIT PROJECT -->
+<div id="projectModal" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 id="projectModalTitle">Tạo Dự án Mới (FSOFT Project)</h3>
+      <button id="closeProjectModalBtn" class="close-modal-btn">&times;</button>
+    </div>
+
+    <form id="projectForm">
+      <div class="form-grid">
+        <div class="form-group full-width">
+          <label for="prjName">Tên Dự án *</label>
+          <input type="text" id="prjName" placeholder="Toyota Next-Gen Cockpit OS" required>
+        </div>
+
+        <div class="form-group">
+          <label for="prjDepartment">Đơn vị FSU *</label>
+          <select id="prjDepartment" required>
+            <option value="GAT">GAT - Automotive</option>
+            <option value="GST">GST - Smart Tech</option>
+            <option value="DBS">DBS - Digital Business</option>
+            <option value="GAM">GAM - Aerospace</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="prjClient">Khách hàng (Client) *</label>
+          <input type="text" id="prjClient" placeholder="Toyota Motors, Bosch..." required>
+        </div>
+
+        <div class="form-group">
+          <label for="prjCountry">Quốc gia</label>
+          <select id="prjCountry">
+            <option value="Japan">Japan (Nhật Bản)</option>
+            <option value="Germany">Germany (Đức)</option>
+            <option value="USA">USA (Mỹ)</option>
+            <option value="Singapore">Singapore</option>
+            <option value="Vietnam">Vietnam (Việt Nam)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="prjPmName">Project Manager (PM) *</label>
+          <input type="text" id="prjPmName" placeholder="Nguyễn Văn Hoàng" required>
+        </div>
+
+        <div class="form-group">
+          <label for="prjLeaderName">Technical Leader</label>
+          <input type="text" id="prjLeaderName" placeholder="Hoàng Đức Anh">
+        </div>
+
+        <div class="form-group">
+          <label for="prjTech">Công nghệ (Tech Stack) *</label>
+          <input type="text" id="prjTech" placeholder="C++, Adaptive Autosar, Linux" required>
+        </div>
+
+        <div class="form-group">
+          <label for="prjProgress">Tiến độ hoàn thành (%)</label>
+          <input type="number" id="prjProgress" min="0" max="100" value="10">
+        </div>
+
+        <div class="form-group">
+          <label for="prjBudget">Ngân sách dự án ($ USD)</label>
+          <input type="number" id="prjBudget" placeholder="300000">
+        </div>
+
+        <div class="form-group">
+          <label for="prjStatus">Trạng thái</label>
+          <select id="prjStatus">
+            <option value="In Progress">In Progress (Đang thực hiện)</option>
+            <option value="Planning">Planning (Lập kế hoạch)</option>
+            <option value="Completed">Completed (Đã bàn giao)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" id="cancelProjectModalBtn" class="btn-secondary">Hủy bỏ</button>
+        <button type="submit" class="btn-primary"><i class="fas fa-save"></i> Lưu Dự án</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL: ASSIGN SKILL -->
+<div id="skillModal" class="modal-overlay">
+  <div class="modal-box" style="max-width: 480px;">
+    <div class="modal-header">
+      <h3><i class="fas fa-award" style="color: var(--primary-fpt);"></i> Gán & Đánh Giá Kỹ Năng (Skill Matrix)</h3>
+      <button id="closeSkillModalBtn" class="close-modal-btn">&times;</button>
+    </div>
+
+    <form id="skillForm">
+      <div class="form-group" style="margin-bottom: 14px;">
+        <label for="skillEmployeeSelect">Chọn Nhân viên *</label>
+        <select id="skillEmployeeSelect" required></select>
+      </div>
+
+      <div class="form-group" style="margin-bottom: 14px;">
+        <label for="skillSelect">Chọn Kỹ năng *</label>
+        <select id="skillSelect" required>
+          <option value="1">Java (Backend)</option>
+          <option value="2">.NET Core (Backend)</option>
+          <option value="3">Python (AI / Data)</option>
+          <option value="4">React (Frontend)</option>
+          <option value="5">Angular (Frontend)</option>
+          <option value="6">Docker (DevOps)</option>
+          <option value="7">AWS Cloud</option>
+          <option value="8">Azure Cloud</option>
+          <option value="9">JLPT (Tiếng Nhật)</option>
+          <option value="10">IELTS (Tiếng Anh)</option>
+        </select>
+      </div>
+
+      <div class="form-group" style="margin-bottom: 14px;">
+        <label for="skillLevel">Trình độ / Level (1 - 5 Sao) *</label>
+        <select id="skillLevel" required>
+          <option value="1">⭐ 1 Sao (Fresher / Cơ bản)</option>
+          <option value="2">⭐⭐ 2 Sao (Junior)</option>
+          <option value="3" selected>⭐⭐⭐ 3 Sao (Middle - Độc lập)</option>
+          <option value="4">⭐⭐⭐⭐ 4 Sao (Senior - Thành thạo)</option>
+          <option value="5">⭐⭐⭐⭐⭐ 5 Sao (Expert / Tech Lead)</option>
+        </select>
+      </div>
+
+      <div class="form-group" style="margin-bottom: 18px;">
+        <label for="skillYears">Số năm kinh nghiệm</label>
+        <input type="number" id="skillYears" min="1" max="25" value="2" required>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" id="cancelSkillModalBtn" class="btn-secondary">Hủy bỏ</button>
+        <button type="submit" class="btn-primary"><i class="fas fa-save"></i> Cập nhật Kỹ năng</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL: RESOURCE ALLOCATION -->
+<div id="resourceModal" class="modal-overlay">
+  <div class="modal-box" style="max-width: 500px;">
+    <div class="modal-header">
+      <h3><i class="fas fa-user-plus" style="color: var(--fpt-green);"></i> Phân Bổ Nhân Sự Vào Dự Án</h3>
+      <button id="closeResourceModalBtn" class="close-modal-btn">&times;</button>
+    </div>
+
+    <form id="resourceForm">
+      <div class="form-group" style="margin-bottom: 14px;">
+        <label for="resProjectSelect">Chọn Dự án *</label>
+        <select id="resProjectSelect" required></select>
+      </div>
+
+      <div class="form-group" style="margin-bottom: 14px;">
+        <label for="resEmployeeSelect">Chọn Nhân viên *</label>
+        <select id="resEmployeeSelect" required></select>
+      </div>
+
+      <div class="form-group" style="margin-bottom: 14px;">
+        <label for="resRole">Vai trò trong Dự án *</label>
+        <input type="text" id="resRole" placeholder="Tech Lead, Senior Developer, QA..." required>
+      </div>
+
+      <div class="form-group" style="margin-bottom: 18px;">
+        <label for="resAllocation">Tỷ lệ Phân bổ % Workload (10% - 100%) *</label>
+        <select id="resAllocation" required>
+          <option value="25">25% (Hỗ trợ bán thời gian)</option>
+          <option value="50">50% (Bán thời gian)</option>
+          <option value="75">75% (3/4 thời gian)</option>
+          <option value="100" selected>100% (Toàn thời gian Full-time)</option>
+        </select>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" id="cancelResourceModalBtn" class="btn-secondary">Hủy bỏ</button>
+        <button type="submit" class="btn-primary"><i class="fas fa-check"></i> Xác nhận Phân bổ</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL: CREATE LEAVE REQUEST -->
+<div id="leaveModal" class="modal-overlay">
+  <div class="modal-box" style="max-width: 480px;">
+    <div class="modal-header">
+      <h3><i class="fas fa-calendar-minus" style="color: var(--primary-fpt);"></i> Tạo Đơn Xin Nghỉ Phép</h3>
+      <button id="closeLeaveModalBtn" class="close-modal-btn">&times;</button>
+    </div>
+
+    <form id="leaveForm">
+      <div class="form-group" style="margin-bottom: 14px;">
+        <label for="leaveType">Loại Nghỉ Phép *</label>
+        <select id="leaveType" required>
+          <option value="Nghỉ phép năm">Nghỉ phép năm (Annual Leave)</option>
+          <option value="Nghỉ ốm">Nghỉ ốm (Sick Leave)</option>
+          <option value="Nghỉ kết hôn / Việc hiếu hỉ">Nghỉ kết hôn / Việc hiếu hỉ</option>
+          <option value="Nghỉ không lương">Nghỉ không lương (Unpaid Leave)</option>
+        </select>
+      </div>
+
+      <div class="form-grid" style="grid-template-columns: 1fr 1fr; margin-bottom: 14px;">
+        <div class="form-group">
+          <label for="leaveStartDate">Từ ngày *</label>
+          <input type="date" id="leaveStartDate" required>
+        </div>
+        <div class="form-group">
+          <label for="leaveEndDate">Đến ngày *</label>
+          <input type="date" id="leaveEndDate" required>
+        </div>
+      </div>
+
+      <div class="form-group" style="margin-bottom: 18px;">
+        <label for="leaveReason">Lý do nghỉ phép *</label>
+        <textarea id="leaveReason" rows="3" placeholder="Nhập lý do xin nghỉ phép..." style="width:100%; border-radius: var(--radius-sm); border: 1px solid var(--border-color); padding: 8px; font-family: inherit;" required></textarea>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" id="cancelLeaveModalBtn" class="btn-secondary">Hủy bỏ</button>
+        <button type="submit" class="btn-primary"><i class="fas fa-paper-plane"></i> Gửi Đơn Xin Phép</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL: ADD KPI REVIEW -->
+<div id="kpiModal" class="modal-overlay">
+  <div class="modal-box" style="max-width: 520px;">
+    <div class="modal-header">
+      <h3><i class="fas fa-bullseye" style="color: var(--primary-fpt);"></i> Đánh Giá Hiệu Suất KPI Nhân Viên</h3>
+      <button id="closeKpiModalBtn" class="close-modal-btn">&times;</button>
+    </div>
+
+    <form id="kpiForm">
+      <div class="form-group" style="margin-bottom: 14px;">
+        <label for="kpiEmployeeSelect">Chọn Nhân viên *</label>
+        <select id="kpiEmployeeSelect" required></select>
+      </div>
+
+      <div class="form-group" style="margin-bottom: 14px;">
+        <label for="kpiPeriod">Kỳ đánh giá *</label>
+        <select id="kpiPeriod" required>
+          <option value="Q3/2026">Quý 3 / 2026 (Q3/2026)</option>
+          <option value="Q4/2026">Quý 4 / 2026 (Q4/2026)</option>
+          <option value="Năm 2026">Tổng kết Năm 2026</option>
+        </select>
+      </div>
+
+      <div class="form-grid" style="grid-template-columns: 1fr 1fr; margin-bottom: 14px;">
+        <div class="form-group">
+          <label for="kpiTech">1. Technical (1 - 10)</label>
+          <input type="number" id="kpiTech" min="1" max="10" value="9" required>
+        </div>
+        <div class="form-group">
+          <label for="kpiTeamwork">2. Teamwork (1 - 10)</label>
+          <input type="number" id="kpiTeamwork" min="1" max="10" value="9" required>
+        </div>
+        <div class="form-group">
+          <label for="kpiComm">3. Communication (1 - 10)</label>
+          <input type="number" id="kpiComm" min="1" max="10" value="8" required>
+        </div>
+        <div class="form-group">
+          <label for="kpiLeader">4. Leadership (1 - 10)</label>
+          <input type="number" id="kpiLeader" min="1" max="10" value="8" required>
+        </div>
+      </div>
+
+      <div class="form-group" style="margin-bottom: 18px;">
+        <label for="kpiComments">Nhận xét chi tiết</label>
+        <textarea id="kpiComments" rows="2" placeholder="Ghi nhận thành tích và điểm cần cải thiện..." style="width:100%; border-radius: var(--radius-sm); border: 1px solid var(--border-color); padding: 8px; font-family: inherit;"></textarea>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" id="cancelKpiModalBtn" class="btn-secondary">Hủy bỏ</button>
+        <button type="submit" class="btn-primary"><i class="fas fa-save"></i> Lưu Kết Quả KPI</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL: ADD CANDIDATE -->
+<div id="candidateModal" class="modal-overlay">
+  <div class="modal-box" style="max-width: 500px;">
+    <div class="modal-header">
+      <h3><i class="fas fa-user-plus" style="color: var(--fpt-blue);"></i> Tiếp Nhận Ứng Viên Tuyển Dụng Mới</h3>
+      <button id="closeCandidateModalBtn" class="close-modal-btn">&times;</button>
+    </div>
+
+    <form id="candidateForm">
+      <div class="form-group" style="margin-bottom: 12px;">
+        <label for="candName">Họ và tên ứng viên *</label>
+        <input type="text" id="candName" placeholder="Lê Hoàng Long" required>
+      </div>
+
+      <div class="form-grid" style="grid-template-columns: 1fr 1fr; margin-bottom: 12px;">
+        <div class="form-group">
+          <label for="candEmail">Email *</label>
+          <input type="email" id="candEmail" placeholder="longlh@gmail.com" required>
+        </div>
+        <div class="form-group">
+          <label for="candPhone">Số điện thoại</label>
+          <input type="text" id="candPhone" placeholder="0987654321">
+        </div>
+      </div>
+
+      <div class="form-group" style="margin-bottom: 12px;">
+        <label for="candPosition">Vị trí ứng tuyển *</label>
+        <input type="text" id="candPosition" placeholder="Senior Autosar C++ Developer" required>
+      </div>
+
+      <div class="form-group" style="margin-bottom: 12px;">
+        <label for="candInterviewer">Người phỏng vấn chính</label>
+        <input type="text" id="candInterviewer" placeholder="Nguyễn Văn Hoàng (PM GAT)">
+      </div>
+
+      <div class="form-group" style="margin-bottom: 18px;">
+        <label for="candNotes">Ghi chú chuyên môn</label>
+        <textarea id="candNotes" rows="2" placeholder="5 năm C++ Linux, JLPT N2..." style="width:100%; border-radius: var(--radius-sm); border: 1px solid var(--border-color); padding: 8px; font-family: inherit;"></textarea>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" id="cancelCandidateModalBtn" class="btn-secondary">Hủy bỏ</button>
+        <button type="submit" class="btn-primary"><i class="fas fa-save"></i> Thêm Ứng Viên</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL: ADD ASSET -->
+<div id="assetModal" class="modal-overlay">
+  <div class="modal-box" style="max-width: 480px;">
+    <div class="modal-header">
+      <h3><i class="fas fa-laptop" style="color: var(--primary-fpt);"></i> Nhập Mới Thiết Bị / Phần Cứng</h3>
+      <button id="closeAssetModalBtn" class="close-modal-btn">&times;</button>
+    </div>
+
+    <form id="assetForm">
+      <div class="form-group" style="margin-bottom: 12px;">
+        <label for="assetCode">Mã Thiết bị / Asset Code *</label>
+        <input type="text" id="assetCode" placeholder="FPT-LAP-2026-09" required>
+      </div>
+
+      <div class="form-group" style="margin-bottom: 12px;">
+        <label for="assetName">Tên Thiết bị *</label>
+        <input type="text" id="assetName" placeholder="Dell Precision 5570 i7 32GB" required>
+      </div>
+
+      <div class="form-group" style="margin-bottom: 12px;">
+        <label for="assetCategory">Phân loại</label>
+        <select id="assetCategory">
+          <option value="Laptop">Laptop Workstation</option>
+          <option value="Monitor">Màn hình Dell UltraSharp</option>
+          <option value="Mobile/Test Device">Thiết bị Mobile / Test Device</option>
+          <option value="PC / Server">PC Desktop / Server</option>
+        </select>
+      </div>
+
+      <div class="form-group" style="margin-bottom: 18px;">
+        <label for="assetSerial">Số Serial Number</label>
+        <input type="text" id="assetSerial" placeholder="SN-DELL-883921">
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" id="cancelAssetModalBtn" class="btn-secondary">Hủy bỏ</button>
+        <button type="submit" class="btn-primary"><i class="fas fa-save"></i> Lưu Thiết Bị</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL: ASSIGN ASSET -->
+<div id="assignAssetModal" class="modal-overlay">
+  <div class="modal-box" style="max-width: 480px;">
+    <div class="modal-header">
+      <h3><i class="fas fa-hand-holding" style="color: var(--fpt-green);"></i> Cấp Phát Thiết Bị Cho Nhân Viên</h3>
+      <button id="closeAssignAssetModalBtn" class="close-modal-btn">&times;</button>
+    </div>
+
+    <form id="assignAssetForm">
+      <div class="form-group" style="margin-bottom: 14px;">
+        <label for="assignAssetSelect">Chọn Thiết bị còn trống *</label>
+        <select id="assignAssetSelect" required></select>
+      </div>
+
+      <div class="form-group" style="margin-bottom: 14px;">
+        <label for="assignAssetEmpSelect">Cấp cho Nhân viên *</label>
+        <select id="assignAssetEmpSelect" required></select>
+      </div>
+
+      <div class="form-group" style="margin-bottom: 18px;">
+        <label for="assignAssetNotes">Ghi chú biên bản bàn giao</label>
+        <input type="text" id="assignAssetNotes" placeholder="Nguyên seal kèm phụ kiện sạc">
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" id="cancelAssignAssetModalBtn" class="btn-secondary">Hủy bỏ</button>
+        <button type="submit" class="btn-primary"><i class="fas fa-check"></i> Xác Nhận Cấp Phát</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL: CHANGE PASSWORD -->
+<div id="changePasswordModal" class="modal-overlay">
+  <div class="modal-box" style="max-width: 420px;">
+    <div class="modal-header">
+      <h3><i class="fas fa-lock" style="color: var(--primary-fpt);"></i> Đổi Mật Khẩu Cá Nhân</h3>
+      <button id="closeChangePassModalBtn" class="close-modal-btn">&times;</button>
+    </div>
+
+    <form id="changePasswordForm">
+      <div class="form-group" style="margin-bottom: 12px;">
+        <label for="oldPassword">Mật khẩu hiện tại *</label>
+        <input type="password" id="oldPassword" placeholder="Nhập mật khẩu hiện tại" required>
+      </div>
+
+      <div class="form-group" style="margin-bottom: 12px;">
+        <label for="newPassword">Mật khẩu mới *</label>
+        <input type="password" id="newPassword" placeholder="Mật khẩu mới (tối thiểu 6 ký tự)" required minlength="6">
+      </div>
+
+      <div class="form-group" style="margin-bottom: 18px;">
+        <label for="confirmNewPassword">Xác nhận mật khẩu mới *</label>
+        <input type="password" id="confirmNewPassword" placeholder="Nhập lại mật khẩu mới" required minlength="6">
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" id="cancelChangePassModalBtn" class="btn-secondary">Hủy bỏ</button>
+        <button type="submit" class="btn-primary"><i class="fas fa-save"></i> Cập Nhật Mật Khẩu</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL: PAYSLIP VIEW -->
+<div id="payslipModal" class="modal-overlay">
+  <div class="modal-box" style="max-width: 600px;">
+    <div class="modal-header">
+      <h3><i class="fas fa-file-invoice-dollar" style="color: var(--fpt-green);"></i> Phiếu Lương Nhân Viên (Payslip)</h3>
+      <button id="closePayslipBtn" class="close-modal-btn">&times;</button>
+    </div>
+    <div id="payslipContent" style="padding: 16px;"></div>
+    <div class="modal-footer">
+      <button onclick="window.print()" class="btn-primary"><i class="fas fa-print"></i> In / Xuất Phiếu Lương</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: ADD POSITION -->
+<div id="positionModal" class="modal-overlay">
+  <div class="modal-box" style="max-width: 480px;">
+    <div class="modal-header">
+      <h3><i class="fas fa-id-badge" style="color: var(--fpt-blue);"></i> Thêm Chức Danh / Vị Trí Mới</h3>
+      <button id="closePositionModalBtn" class="close-modal-btn">&times;</button>
+    </div>
+
+    <form id="positionForm">
+      <div class="form-group" style="margin-bottom: 12px;">
+        <label for="posTitle">Tên Chức danh *</label>
+        <input type="text" id="posTitle" placeholder="DevOps Engineer, Scrum Master..." required>
+      </div>
+
+      <div class="form-group" style="margin-bottom: 12px;">
+        <label for="posLevel">Level *</label>
+        <select id="posLevel" required>
+          <option value="Junior">Junior</option>
+          <option value="Middle" selected>Middle</option>
+          <option value="Senior">Senior</option>
+          <option value="Lead">Lead</option>
+          <option value="Manager">Manager</option>
+          <option value="Director">Director</option>
+        </select>
+      </div>
+
+      <div class="form-group" style="margin-bottom: 12px;">
+        <label for="posSalaryGrade">Khung lương (Salary Grade) *</label>
+        <input type="text" id="posSalaryGrade" placeholder="15M - 25M VND" required>
+      </div>
+
+      <div class="form-group" style="margin-bottom: 18px;">
+        <label for="posDescription">Mô tả chi tiết</label>
+        <textarea id="posDescription" rows="3" placeholder="Mô tả trách nhiệm công việc..." style="width:100%; border-radius: var(--radius-sm); border: 1px solid var(--border-color); padding: 8px; font-family: inherit;"></textarea>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" id="cancelPositionModalBtn" class="btn-secondary">Hủy bỏ</button>
+        <button type="submit" class="btn-primary"><i class="fas fa-save"></i> Lưu Chức Danh</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL: ADD COURSE -->
+<div id="courseModal" class="modal-overlay">
+  <div class="modal-box" style="max-width: 500px;">
+    <div class="modal-header">
+      <h3><i class="fas fa-graduation-cap" style="color: var(--primary-fpt);"></i> Tạo Khóa Đào Tạo Mới</h3>
+      <button id="closeCourseModalBtn" class="close-modal-btn">&times;</button>
+    </div>
+
+    <form id="courseForm">
+      <div class="form-group" style="margin-bottom: 12px;">
+        <label for="courseTitle">Tên Khóa Đào Tạo *</label>
+        <input type="text" id="courseTitle" placeholder="Golang Microservices Masterclass" required>
+      </div>
+
+      <div class="form-grid" style="grid-template-columns: 1fr 1fr; margin-bottom: 12px;">
+        <div class="form-group">
+          <label for="courseTrainer">Giảng viên phụ trách</label>
+          <input type="text" id="courseTrainer" placeholder="Nguyễn Văn A">
+        </div>
+        <div class="form-group">
+          <label for="courseDuration">Thời lượng đào tạo</label>
+          <input type="text" id="courseDuration" placeholder="40 Giờ / 4 Tuần">
+        </div>
+      </div>
+
+      <div class="form-group" style="margin-bottom: 12px;">
+        <label for="courseCertName">Tên Chứng chỉ hoàn thành</label>
+        <input type="text" id="courseCertName" placeholder="FSOFT Go Specialist Certificate">
+      </div>
+
+      <div class="form-group" style="margin-bottom: 18px;">
+        <label for="courseDescription">Mô tả nội dung đào tạo</label>
+        <textarea id="courseDescription" rows="3" placeholder="Khóa học cung cấp kiến thức thực chiến..." style="width:100%; border-radius: var(--radius-sm); border: 1px solid var(--border-color); padding: 8px; font-family: inherit;"></textarea>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" id="cancelCourseModalBtn" class="btn-secondary">Hủy bỏ</button>
+        <button type="submit" class="btn-primary"><i class="fas fa-save"></i> Tạo Khóa Học</button>
+      </div>
+    </form>
+  </div>
+</div>

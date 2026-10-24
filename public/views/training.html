@@ -1,0 +1,33 @@
+<!-- TRAINING COURSES VIEW -->
+<div class="card-title" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
+  <h3><i class="fas fa-graduation-cap" style="color: var(--primary-fpt);"></i> Khóa Đào Tạo & Lộ Trình Kỹ Năng</h3>
+  <button id="addCourseBtn" class="btn-primary rbac-admin-hr"><i class="fas fa-plus"></i> Tạo Khóa Đào Tạo Mới</button>
+</div>
+
+<section id="coursesContainer" class="stats-grid" style="grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); margin-bottom: 24px;"></section>
+
+<div class="card-title" style="margin-bottom: 14px;">
+  <h3><i class="fas fa-tasks" style="color: var(--fpt-green);"></i> Tiến Độ & Kết Quả Đào Tạo Của Nhân Viên</h3>
+</div>
+
+<section class="table-card">
+  <div class="table-responsive">
+    <table class="employee-table">
+      <thead>
+        <tr>
+          <th>STT</th>
+          <th>Nhân viên</th>
+          <th>Đơn vị (FSU)</th>
+          <th>Khóa học</th>
+          <th>Giảng viên</th>
+          <th>Chứng chỉ</th>
+          <th>Trạng thái</th>
+          <th>Điểm số</th>
+        </tr>
+      </thead>
+      <tbody id="trainingResultsTableBody">
+        <tr><td colspan="8" style="text-align: center; color: var(--text-light);">Đang tải dữ liệu kết quả đào tạo...</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>

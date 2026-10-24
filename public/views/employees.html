@@ -1,0 +1,53 @@
+<!-- EMPLOYEES VIEW -->
+<section class="toolbar-card" style="justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+  <div class="filter-group">
+    <label><i class="fas fa-filter"></i> Đơn vị:</label>
+    <select id="deptFilter" class="filter-select">
+      <option value="ALL">Tất cả FSU</option>
+      <option value="GAT">GAT - Automotive</option>
+      <option value="GST">GST - Smart Tech</option>
+      <option value="GAM">GAM - Aerospace</option>
+      <option value="DBS">DBS - Digital Business</option>
+      <option value="HR">HR - Nhân sự</option>
+    </select>
+
+    <label><i class="fas fa-layer-group"></i> Level:</label>
+    <select id="levelFilter" class="filter-select">
+      <option value="ALL">Tất cả Level</option>
+      <option value="Junior">Junior</option>
+      <option value="Middle">Middle</option>
+      <option value="Senior">Senior</option>
+      <option value="Lead">Lead</option>
+      <option value="Manager">Manager</option>
+    </select>
+
+    <label><i class="fas fa-sort"></i> Sắp xếp:</label>
+    <select id="sortSelect" class="filter-select">
+      <option value="created_at:DESC">Mới thêm gần đây</option>
+      <option value="name:ASC">Tên (A -> Z)</option>
+      <option value="salary:DESC">Lương cao nhất</option>
+    </select>
+  </div>
+
+  <button id="addEmpToolbarBtn" class="btn-primary rbac-admin-hr"><i class="fas fa-plus"></i> Thêm Nhân Viên Mới</button>
+</section>
+
+<section class="table-card" style="margin-top: 20px;">
+  <div class="table-responsive">
+    <table class="employee-table">
+      <thead>
+        <tr>
+          <th>Nhân viên</th>
+          <th>FSU & Chức danh</th>
+          <th>Level</th>
+          <th>Liên hệ</th>
+          <th>Trạng thái</th>
+          <th>Lương</th>
+          <th>Hồ sơ / CV</th>
+          <th>Thao tác</th>
+        </tr>
+      </thead>
+      <tbody id="employeeTableBody"></tbody>
+    </table>
+  </div>
+</section>

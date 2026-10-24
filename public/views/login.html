@@ -1,0 +1,42 @@
+<!-- DEDICATED FULL-SCREEN LOGIN VIEW (4 ROLES) -->
+<div class="login-screen-wrapper">
+  <div class="login-card-container">
+    <div class="login-header">
+      <div class="login-logo-badge">
+        <i class="fas fa-layer-group"></i>
+      </div>
+      <h2>FSOFT ENTERPRISE HRMS</h2>
+      <p>Cổng Quản Trị Nhân Sự FPT Software</p>
+    </div>
+
+    <div class="login-presets-box">
+      <label><i class="fas fa-magic"></i> ĐĂNG NHẬP NHANH TÀI KHOẢN MẪU (4 VAI TRÒ):</label>
+      <div class="login-preset-btns" style="grid-template-columns: repeat(4, 1fr);">
+        <button type="button" id="presetAdminBtn" class="btn-preset">Admin</button>
+        <button type="button" id="presetHrBtn" class="btn-preset">HR</button>
+        <button type="button" id="presetPmBtn" class="btn-preset">PM</button>
+        <button type="button" id="presetUserBtn" class="btn-preset">Employee</button>
+      </div>
+    </div>
+
+    <form id="screenLoginForm">
+      <div class="form-group" style="margin-bottom: 14px;">
+        <label for="screenLoginUsername"><i class="fas fa-user"></i> Tên đăng nhập *</label>
+        <input type="text" id="screenLoginUsername" placeholder="Username (admin, hr, pm, employee...)" required autocomplete="username">
+      </div>
+
+      <div class="form-group" style="margin-bottom: 20px;">
+        <label for="screenLoginPassword"><i class="fas fa-lock"></i> Mật khẩu *</label>
+        <input type="password" id="screenLoginPassword" placeholder="Mật khẩu" required autocomplete="current-password">
+      </div>
+
+      <button type="submit" class="btn-primary" style="width: 100%; justify-content: center; padding: 12px; font-size: 14px;">
+        <i class="fas fa-sign-in-alt"></i> Đăng Nhập Vào Hệ Thống
+      </button>
+    </form>
+
+    <div style="text-align: center; margin-top: 20px; font-size: 11px; color: var(--text-light);">
+      <i class="fas fa-shield-alt" style="color: var(--fpt-green);"></i> FPT Software Secure Portal &bull; Phiên bản 2026
+    </div>
+  </div>
+</div>

@@ -1,0 +1,203 @@
+<!-- DEPARTMENTS & ORG HUB VIEW -->
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+  <div>
+    <h2 style="font-size: 20px; font-weight: 800; display: flex; align-items: center; gap: 8px;">
+      <i class="fas fa-sitemap" style="color: var(--primary-fpt);"></i> Cơ Cấu Tổ Chức & Đơn Vị Chiến Lược (FSU)
+    </h2>
+    <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">
+      Quản lý các đơn vị thành viên, xem chi tiết nhân sự, dự án trực thuộc và điều phối nguồn lực FPT Software.
+    </p>
+  </div>
+  <div style="display: flex; gap: 10px;">
+    <button id="addDeptBtn" class="btn-primary rbac-admin-hr" style="display: inline-flex; align-items: center; gap: 6px;">
+      <i class="fas fa-plus-circle"></i> Thêm Đơn Vị FSU
+    </button>
+  </div>
+</div>
+
+<!-- ORG STATS OVERVIEW BAR -->
+<section id="deptOverviewStats" class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-bottom: 24px;">
+  <div class="stat-card">
+    <div class="stat-icon orange"><i class="fas fa-building"></i></div>
+    <div class="stat-details">
+      <h3 id="statTotalDepts">--</h3>
+      <p>Tổng Đơn Vị FSU</p>
+    </div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon blue"><i class="fas fa-users"></i></div>
+    <div class="stat-details">
+      <h3 id="statTotalDeptEmps">--</h3>
+      <p>Tổng Nhân Sự Thuộc Khối</p>
+    </div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon purple"><i class="fas fa-project-diagram"></i></div>
+    <div class="stat-details">
+      <h3 id="statTotalDeptProjects">--</h3>
+      <p>Dự Án Đang Triển Khai</p>
+    </div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon green"><i class="fas fa-money-bill-wave"></i></div>
+    <div class="stat-details">
+      <h3 id="statTotalDeptSalary">--</h3>
+      <p>Tổng Quỹ Lương Khối FSU</p>
+    </div>
+  </div>
+</section>
+
+<!-- FSU SEARCH & FILTER BAR -->
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+  <div class="search-box" style="width: 320px; background: var(--bg-card);">
+    <i class="fas fa-search"></i>
+    <input type="text" id="deptSearchInput" placeholder="Tìm theo mã FSU, tên hoặc trưởng đơn vị...">
+  </div>
+  <div style="font-size: 13px; color: var(--text-muted);">
+    <i class="fas fa-mouse-pointer" style="color: var(--primary-fpt);"></i> Nhấp vào thẻ FSU để <strong>xem danh sách nhân sự & dự án trực thuộc</strong>
+  </div>
+</div>
+
+<!-- FSU CONTAINER (GRID OF CARDS) -->
+<section id="fsuContainer" class="stats-grid" style="grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 18px;"></section>
+
+<!-- MODAL: DEPARTMENT DETAILS (Xem Nhân sự & Dự án của FSU) -->
+<div id="deptDetailModal" class="modal-overlay">
+  <div class="modal-box" style="max-width: 950px; max-height: 90vh; display: flex; flex-direction: column;">
+    <div class="modal-header">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div id="modalDeptBadgeIcon" class="stat-icon orange" style="width: 42px; height: 42px; font-size: 18px;">
+          <i class="fas fa-building"></i>
+        </div>
+        <div>
+          <h3 id="modalDeptName" style="font-size: 17px; font-weight: 800;">Tên Đơn Vị FSU</h3>
+          <div id="modalDeptManager" style="font-size: 12px; color: var(--text-muted); margin-top: 2px;"></div>
+        </div>
+      </div>
+      <button id="closeDeptDetailModalBtn" class="close-modal-btn">&times;</button>
+    </div>
+
+    <!-- Quick Stats Bar inside Modal -->
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; padding: 14px 24px; background: var(--bg-input); border-bottom: 1px solid var(--border-color); font-size: 12px;">
+      <div>
+        <span style="color: var(--text-muted);">Quy mô nhân sự:</span>
+        <div id="detailTotalEmps" style="font-size: 16px; font-weight: 800; margin-top: 2px;">--</div>
+      </div>
+      <div>
+        <span style="color: var(--text-muted);">Chính thức (Active):</span>
+        <div id="detailActiveEmps" style="font-size: 16px; font-weight: 800; color: var(--fpt-green); margin-top: 2px;">--</div>
+      </div>
+      <div>
+        <span style="color: var(--text-muted);">Dự án phụ trách:</span>
+        <div id="detailTotalProjects" style="font-size: 16px; font-weight: 800; color: var(--primary-fpt); margin-top: 2px;">--</div>
+      </div>
+      <div>
+        <span style="color: var(--text-muted);">Tổng quỹ lương:</span>
+        <div id="detailTotalSalary" style="font-size: 16px; font-weight: 800; color: var(--fpt-purple); margin-top: 2px;">--</div>
+      </div>
+    </div>
+
+    <!-- Detail Description -->
+    <div id="modalDeptDesc" style="padding: 10px 24px; font-size: 13px; color: var(--text-muted); background: var(--bg-card); border-bottom: 1px solid var(--border-color);"></div>
+
+    <!-- Detail Tabs -->
+    <div style="display: flex; border-bottom: 1px solid var(--border-color); padding: 0 24px; background: var(--bg-card);">
+      <button id="tabBtnDeptEmployees" class="dept-tab-btn active" style="padding: 12px 18px; font-weight: 700; font-size: 13px; border: none; background: transparent; border-bottom: 2px solid var(--primary-fpt); color: var(--primary-fpt); cursor: pointer;">
+        <i class="fas fa-users"></i> Danh Sách Nhân Sự (<span id="tabEmpCount">0</span>)
+      </button>
+      <button id="tabBtnDeptProjects" class="dept-tab-btn" style="padding: 12px 18px; font-weight: 700; font-size: 13px; border: none; background: transparent; border-bottom: 2px solid transparent; color: var(--text-muted); cursor: pointer;">
+        <i class="fas fa-project-diagram"></i> Dự Án Trực Thuộc (<span id="tabProjCount">0</span>)
+      </button>
+    </div>
+
+    <!-- Tab Content Scrollable -->
+    <div style="padding: 16px 24px; overflow-y: auto; flex: 1;">
+      <!-- Tab 1: Employees List -->
+      <div id="deptEmployeesTabContent">
+        <div class="table-responsive">
+          <table class="employee-table">
+            <thead>
+              <tr>
+                <th>Nhân viên</th>
+                <th>Chức danh</th>
+                <th>Level</th>
+                <th>Liên hệ</th>
+                <th>Trạng thái</th>
+                <th>Mức lương</th>
+              </tr>
+            </thead>
+            <tbody id="deptEmployeesTableBody">
+              <tr><td colspan="6" style="text-align:center; padding: 20px;">Đang tải danh sách nhân sự...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Tab 2: Projects List -->
+      <div id="deptProjectsTabContent" style="display: none;">
+        <div class="table-responsive">
+          <table class="employee-table">
+            <thead>
+              <tr>
+                <th>Mã DA</th>
+                <th>Tên Dự án</th>
+                <th>Khách hàng</th>
+                <th>PM Phụ trách</th>
+                <th>Tiến độ</th>
+                <th>Trạng thái</th>
+              </tr>
+            </thead>
+            <tbody id="deptProjectsTableBody">
+              <tr><td colspan="6" style="text-align:center; padding: 20px;">Đang tải danh sách dự án...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer" style="padding: 14px 24px; border-top: 1px solid var(--border-color); display: flex; justify-content: flex-end;">
+      <button id="closeDeptDetailModalFooterBtn" class="btn-secondary">Đóng</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: ADD / EDIT DEPARTMENT -->
+<div id="deptFormModal" class="modal-overlay">
+  <div class="modal-box" style="max-width: 520px;">
+    <div class="modal-header">
+      <h3 id="deptFormModalTitle">Thêm mới Đơn vị FSU</h3>
+      <button id="closeDeptFormModalBtn" class="close-modal-btn">&times;</button>
+    </div>
+    <form id="deptForm">
+      <div class="form-grid" style="grid-template-columns: 1fr;">
+        <div class="form-group">
+          <label for="deptIdInput">Mã Đơn vị (FSU Code) *</label>
+          <input type="text" id="deptIdInput" placeholder="Ví dụ: GAT, GST, FIN..." required style="text-transform: uppercase;">
+        </div>
+        <div class="form-group">
+          <label for="deptNameInput">Tên đầy đủ của Đơn vị *</label>
+          <input type="text" id="deptNameInput" placeholder="Ví dụ: Global Automotive Technologies" required>
+        </div>
+        <div class="form-group">
+          <label for="deptManagerInput">Trưởng Đơn vị phụ trách (Manager)</label>
+          <input type="text" id="deptManagerInput" placeholder="Ví dụ: Nguyễn Văn A">
+        </div>
+        <div class="form-group">
+          <label for="deptDescInput">Mô tả lĩnh vực hoạt động / Công nghệ cốt lõi</label>
+          <textarea id="deptDescInput" rows="3" placeholder="Mô tả tóm tắt định hướng và công nghệ..." style="padding: 10px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-color); background: var(--bg-input); color: var(--text-main); font-family: inherit;"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="deptStatusInput">Trạng thái</label>
+          <select id="deptStatusInput">
+            <option value="Active" selected>Hoạt động (Active)</option>
+            <option value="Inactive">Tạm ngưng (Inactive)</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding: 16px 24px; border-top: 1px solid var(--border-color); display: flex; justify-content: flex-end; gap: 10px;">
+        <button type="button" id="cancelDeptFormBtn" class="btn-secondary">Hủy</button>
+        <button type="submit" class="btn-primary">Lưu Đơn Vị</button>
+      </div>
+    </form>
+  </div>
+</div>

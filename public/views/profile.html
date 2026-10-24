@@ -1,0 +1,200 @@
+<!-- ==========================================
+     USER PROFILE & ACCOUNT SETTINGS VIEW
+     ========================================== -->
+<div class="card-title" style="margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+  <div>
+    <h2 style="font-size: 22px; font-weight: 800; display: flex; align-items: center; gap: 10px;">
+      <i class="fas fa-user-circle" style="color: var(--primary-fpt);"></i> Hồ Sơ Cá Nhân & Thiết Lập Tài Khoản
+    </h2>
+    <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">
+      Quản lý thông tin định danh FPT Software, thông tin liên hệ và cài đặt bảo mật cá nhân.
+    </p>
+  </div>
+</div>
+
+<!-- PROFILE HERO CARD -->
+<section class="table-card" style="margin-bottom: 24px; padding: 24px; background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-card-hover) 100%);">
+  <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
+    <!-- Avatar & Main Identification -->
+    <div style="display: flex; align-items: center; gap: 20px;">
+      <div style="position: relative;">
+        <img id="profileHeaderAvatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=user" alt="User Avatar" 
+             style="width: 86px; height: 86px; border-radius: 50%; border: 3px solid var(--primary-fpt); background: var(--bg-input); box-shadow: var(--shadow-md);">
+        <span id="profileOnlineDot" style="position: absolute; bottom: 4px; right: 4px; width: 14px; height: 14px; border-radius: 50%; background: var(--fpt-green); border: 2px solid var(--bg-card);"></span>
+      </div>
+      <div>
+        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+          <h2 id="profileHeaderFullName" style="font-size: 20px; font-weight: 800; margin: 0;">--</h2>
+          <span id="profileHeaderRoleBadge" class="badge badge-status active">Employee</span>
+        </div>
+        <div style="font-size: 13px; color: var(--text-muted); margin-top: 4px; display: flex; gap: 14px; flex-wrap: wrap;">
+          <span><i class="fas fa-at" style="color: var(--primary-fpt);"></i> <strong id="profileHeaderUsername">--</strong></span>
+          <span><i class="fas fa-id-card" style="color: var(--fpt-blue);"></i> Mã NV: <strong id="profileHeaderEmpId">--</strong></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Badges Group -->
+    <div style="display: flex; gap: 14px; flex-wrap: wrap;">
+      <div style="background: var(--bg-input); padding: 10px 16px; border-radius: var(--radius-sm); border: 1px solid var(--border-color); text-align: center; min-width: 100px;">
+        <div style="font-size: 11px; color: var(--text-muted); font-weight: 600;">ĐƠN VỊ FSU</div>
+        <div id="profileHeaderDept" style="font-size: 15px; font-weight: 800; color: var(--primary-fpt); margin-top: 2px;">--</div>
+      </div>
+      <div style="background: var(--bg-input); padding: 10px 16px; border-radius: var(--radius-sm); border: 1px solid var(--border-color); text-align: center; min-width: 100px;">
+        <div style="font-size: 11px; color: var(--text-muted); font-weight: 600;">CẤP BẬC</div>
+        <div id="profileHeaderLevel" style="font-size: 15px; font-weight: 800; color: var(--fpt-blue); margin-top: 2px;">--</div>
+      </div>
+      <div style="background: var(--bg-input); padding: 10px 16px; border-radius: var(--radius-sm); border: 1px solid var(--border-color); text-align: center; min-width: 110px;">
+        <div style="font-size: 11px; color: var(--text-muted); font-weight: 600;">NGÀY GIA NHẬP</div>
+        <div id="profileHeaderJoinDate" style="font-size: 14px; font-weight: 700; color: var(--fpt-green); margin-top: 2px;">--</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2-COLUMN PROFILE CONTENT: PERSONAL DETAILS & SECURITY SETTINGS -->
+<div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 24px; margin-bottom: 24px;">
+  
+  <!-- COLUMN 1: THÔNG TIN CÁ NHÂN & CÔNG TÁC -->
+  <div class="table-card" style="padding: 24px;">
+    <div class="card-title" style="margin-bottom: 18px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px;">
+      <h3 style="font-size: 16px; font-weight: 700; display: flex; align-items: center; gap: 8px;">
+        <i class="fas fa-user-edit" style="color: var(--primary-fpt);"></i> Thông Tin Cá Nhân & Liên Hệ
+      </h3>
+    </div>
+
+    <form id="profileForm">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px;">
+        <div class="form-group">
+          <label for="profileInputFullName" style="font-size: 12px; font-weight: 700; color: var(--text-main); margin-bottom: 6px; display: block;">Họ và tên *</label>
+          <input type="text" id="profileInputFullName" required style="width: 100%; padding: 10px 12px; border-radius: var(--radius-sm); border: 1px solid var(--border-color); background: var(--bg-input); color: var(--text-main); font-family: inherit;">
+        </div>
+        <div class="form-group">
+          <label for="profileInputEmail" style="font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; display: block;">Email FPT (Định danh)</label>
+          <input type="email" id="profileInputEmail" disabled style="width: 100%; padding: 10px 12px; border-radius: var(--radius-sm); border: 1px solid var(--border-color); background: var(--bg-app); color: var(--text-light); font-family: inherit; cursor: not-allowed;" title="Email do tổ chức FPT cấp không thể thay đổi">
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px;">
+        <div class="form-group">
+          <label for="profileInputPhone" style="font-size: 12px; font-weight: 700; color: var(--text-main); margin-bottom: 6px; display: block;">Số điện thoại di động</label>
+          <input type="text" id="profileInputPhone" placeholder="09xxxxxxxx" style="width: 100%; padding: 10px 12px; border-radius: var(--radius-sm); border: 1px solid var(--border-color); background: var(--bg-input); color: var(--text-main); font-family: inherit;">
+        </div>
+        <div class="form-group">
+          <label for="profileSelectGender" style="font-size: 12px; font-weight: 700; color: var(--text-main); margin-bottom: 6px; display: block;">Giới tính</label>
+          <select id="profileSelectGender" style="width: 100%; padding: 10px 12px; border-radius: var(--radius-sm); border: 1px solid var(--border-color); background: var(--bg-input); color: var(--text-main); font-family: inherit;">
+            <option value="Nam">Nam</option>
+            <option value="Nữ">Nữ</option>
+            <option value="Khác">Khác</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px;">
+        <div class="form-group">
+          <label for="profileInputBirthday" style="font-size: 12px; font-weight: 700; color: var(--text-main); margin-bottom: 6px; display: block;">Ngày sinh</label>
+          <input type="date" id="profileInputBirthday" style="width: 100%; padding: 10px 12px; border-radius: var(--radius-sm); border: 1px solid var(--border-color); background: var(--bg-input); color: var(--text-main); font-family: inherit;">
+        </div>
+        <div class="form-group">
+          <label for="profileInputPosition" style="font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; display: block;">Chức danh công việc</label>
+          <input type="text" id="profileInputPosition" disabled style="width: 100%; padding: 10px 12px; border-radius: var(--radius-sm); border: 1px solid var(--border-color); background: var(--bg-app); color: var(--text-light); font-family: inherit; cursor: not-allowed;">
+        </div>
+      </div>
+
+      <div class="form-group" style="margin-bottom: 18px;">
+        <label for="profileInputAddress" style="font-size: 12px; font-weight: 700; color: var(--text-main); margin-bottom: 6px; display: block;">Địa chỉ liên hệ hiện tại</label>
+        <textarea id="profileInputAddress" rows="2" placeholder="Số nhà, đường, phường/xã, quận/huyện, tỉnh/thành phố..." style="width: 100%; padding: 10px 12px; border-radius: var(--radius-sm); border: 1px solid var(--border-color); background: var(--bg-input); color: var(--text-main); font-family: inherit; resize: vertical;"></textarea>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 10px;">
+        <button type="submit" class="btn-primary" id="saveProfileBtn">
+          <i class="fas fa-save"></i> Lưu Thay Đổi Hồ Sơ
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- COLUMN 2: CÀI ĐẶT BẢO MẬT & ĐỔI MẬT KHẨU -->
+  <div class="table-card" style="padding: 24px;">
+    <div class="card-title" style="margin-bottom: 18px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px;">
+      <h3 style="font-size: 16px; font-weight: 700; display: flex; align-items: center; gap: 8px;">
+        <i class="fas fa-shield-alt" style="color: var(--fpt-green);"></i> Cài Đặt Bảo Mật & Mật Khẩu
+      </h3>
+    </div>
+
+    <form id="profilePasswordForm">
+      <div class="form-group" style="margin-bottom: 14px;">
+        <label for="profileOldPassword" style="font-size: 12px; font-weight: 700; color: var(--text-main); margin-bottom: 6px; display: block;">Mật khẩu hiện tại *</label>
+        <input type="password" id="profileOldPassword" placeholder="Nhập mật khẩu đang sử dụng" required style="width: 100%; padding: 10px 12px; border-radius: var(--radius-sm); border: 1px solid var(--border-color); background: var(--bg-input); color: var(--text-main); font-family: inherit;">
+      </div>
+
+      <div class="form-group" style="margin-bottom: 14px;">
+        <label for="profileNewPassword" style="font-size: 12px; font-weight: 700; color: var(--text-main); margin-bottom: 6px; display: block;">Mật khẩu mới * (tối thiểu 6 ký tự)</label>
+        <input type="password" id="profileNewPassword" placeholder="Nhập mật khẩu mới" required minlength="6" style="width: 100%; padding: 10px 12px; border-radius: var(--radius-sm); border: 1px solid var(--border-color); background: var(--bg-input); color: var(--text-main); font-family: inherit;">
+      </div>
+
+      <div class="form-group" style="margin-bottom: 18px;">
+        <label for="profileConfirmPassword" style="font-size: 12px; font-weight: 700; color: var(--text-main); margin-bottom: 6px; display: block;">Xác nhận mật khẩu mới *</label>
+        <input type="password" id="profileConfirmPassword" placeholder="Nhập lại mật khẩu mới" required minlength="6" style="width: 100%; padding: 10px 12px; border-radius: var(--radius-sm); border: 1px solid var(--border-color); background: var(--bg-input); color: var(--text-main); font-family: inherit;">
+      </div>
+
+      <!-- Security Notice Box -->
+      <div style="background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: var(--radius-sm); padding: 12px 14px; font-size: 12px; color: var(--text-muted); margin-bottom: 18px; line-height: 1.6;">
+        <div style="font-weight: 700; color: var(--fpt-green); margin-bottom: 4px;">
+          <i class="fas fa-lock"></i> Chuẩn an toàn FPT Software Security
+        </div>
+        <div>• Mật khẩu được mã hóa an toàn với thuật toán <strong>bcrypt (10 rounds)</strong>.</div>
+        <div>• Đổi mật khẩu thành công sẽ tự động thu hồi các phiên đăng nhập cũ trên thiết bị khác.</div>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end;">
+        <button type="submit" class="btn-primary" id="changePasswordDirectBtn">
+          <i class="fas fa-key"></i> Xác Nhận Đổi Mật Khẩu
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ADMIN-ONLY SYSTEM HEALTH & AUDIT LOGS SECTION -->
+<div class="rbac-admin-only" style="margin-top: 24px;">
+  <div class="card-title" style="margin-bottom: 14px;">
+    <h3 style="font-size: 17px; font-weight: 800; display: flex; align-items: center; gap: 8px;">
+      <i class="fas fa-server" style="color: var(--primary-fpt);"></i> Tiện Ích Quản Trị Hệ Thống (Admin Only)
+    </h3>
+  </div>
+
+  <div style="display: grid; grid-template-columns: 1fr; gap: 20px;">
+    <!-- DB Connection Card -->
+    <div class="chart-card" style="padding: 18px;">
+      <div class="card-title" style="margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
+        <h4 style="margin: 0; font-size: 14px;"><i class="fas fa-database" style="color: var(--primary-fpt);"></i> Trạng Thái Kết Nối PostgreSQL</h4>
+        <button id="testDbBtn" class="btn-secondary" style="padding: 5px 12px; font-size: 12px;"><i class="fas fa-sync"></i> Kiểm tra</button>
+      </div>
+      <div id="postgresStatusCard"></div>
+    </div>
+
+    <!-- Audit Logs Table -->
+    <div class="table-card">
+      <div class="card-title" style="padding: 14px 20px; margin-bottom: 0; border-bottom: 1px solid var(--border-color);">
+        <h4 style="margin: 0; font-size: 14px;"><i class="fas fa-history" style="color: var(--primary-fpt);"></i> Nhật Ký Hoạt Động & Bảo Mật (Audit Logs)</h4>
+      </div>
+      <div class="table-responsive">
+        <table class="employee-table">
+          <thead>
+            <tr>
+              <th>Thời gian</th>
+              <th>Người thực hiện</th>
+              <th>Hành động (Action)</th>
+              <th>Đối tượng</th>
+              <th>Chi tiết</th>
+            </tr>
+          </thead>
+          <tbody id="auditLogsTableBody">
+            <tr><td colspan="5" style="text-align: center; color: var(--text-light); padding: 16px;">Đang tải dữ liệu nhật ký...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
