@@ -122,11 +122,10 @@ const createTablesSQL = `
     end_date DATE NOT NULL,
     days_count INT DEFAULT 1,
     reason TEXT,
-    status VARCHAR(30) DEFAULT 'Pending Leader',
-    leader_approved BOOLEAN DEFAULT NULL,
+    status VARCHAR(30) DEFAULT 'Pending PM',
     pm_approved BOOLEAN DEFAULT NULL,
     hr_approved BOOLEAN DEFAULT NULL,
-    current_step VARCHAR(30) DEFAULT 'Leader',
+    current_step VARCHAR(30) DEFAULT 'PM',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   );
 
@@ -299,8 +298,12 @@ const migrationAlterSQL = `
   ALTER TABLE assets ADD COLUMN IF NOT EXISTS assigned_date DATE;
   ALTER TABLE assets ADD COLUMN IF NOT EXISTS notes TEXT;
 
-  -- Ensure leave_requests table has leader_approved column
-  ALTER TABLE leave_requests ADD COLUMN IF NOT EXISTS leader_approved BOOLEAN DEFAULT NULL;
+  -- Ensure leave_requests table has pm_approved & hr_approved columns and 2-step workflow (PM -> HR)
+  ALTER TABLE leave_requests ADD COLUMN IF NOT EXISTS pm_approved BOOLEAN DEFAULT NULL;
+  ALTER TABLE leave_requests ADD COLUMN IF NOT EXISTS hr_approved BOOLEAN DEFAULT NULL;
+  ALTER TABLE leave_requests ALTER COLUMN status SET DEFAULT 'Pending PM';
+  ALTER TABLE leave_requests ALTER COLUMN current_step SET DEFAULT 'PM';
+  UPDATE leave_requests SET status = 'Pending PM', current_step = 'PM' WHERE current_step = 'Leader' OR status = 'Pending Leader';
 
   -- Recreate view cleanly for backward compatibility
   DROP VIEW IF EXISTS employees CASCADE;

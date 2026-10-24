@@ -6,7 +6,7 @@ const { verifyToken, requireRoles } = require('../middlewares/authMiddleware');
 router.use(verifyToken);
 
 router.get('/hr', requireRoles('Admin', 'HR'), DashboardController.getHrDashboard);
-router.get('/pm', requireRoles('Admin', 'Project Manager', 'Team Leader'), DashboardController.getPmDashboard);
+router.get('/pm', requireRoles('Admin', 'Project Manager'), DashboardController.getPmDashboard);
 router.get('/employee', DashboardController.getEmployeeDashboard);
 
 module.exports = router;

@@ -191,7 +191,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       el.style.display = (role === 'Admin' || role === 'HR' || role === 'Project Manager') ? 'inline-flex' : 'none';
     });
     document.querySelectorAll('.rbac-skill-mgr').forEach(el => {
-      el.style.display = (role === 'Admin' || role === 'HR' || role === 'Project Manager' || role === 'Team Leader') ? 'inline-flex' : 'none';
+      el.style.display = (role === 'Admin' || role === 'HR' || role === 'Project Manager') ? 'inline-flex' : 'none';
     });
   }
 
@@ -920,9 +920,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // =========================================================================
-    // CASE 2: PROJECT MANAGER & TEAM LEADER DASHBOARD (Dự Án & Quản Trị Đội Ngũ)
+    // CASE 2: PROJECT MANAGER DASHBOARD (Dự Án & Quản Trị Đội Ngũ)
     // =========================================================================
-    if (user.role === 'Project Manager' || user.role === 'Team Leader') {
+    if (user.role === 'Project Manager') {
       if (actionText) actionText.textContent = 'Tạo Dự Án';
       if (actionBtn) {
         actionBtn.style.display = (user.role === 'Project Manager') ? 'inline-flex' : 'none';
@@ -1570,10 +1570,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       let approveBtnLabel = '';
 
       if (l.status !== 'Approved' && l.status !== 'Rejected') {
-        if ((userRole === 'Team Leader' && l.current_step === 'Leader') || userRole === 'Admin') {
-          canApprove = true;
-          approveBtnLabel = 'Duyệt (Leader)';
-        } else if ((userRole === 'Project Manager' && l.current_step === 'PM') || userRole === 'Admin') {
+        if ((userRole === 'Project Manager' && (l.current_step === 'PM' || l.current_step === 'Leader')) || userRole === 'Admin') {
           canApprove = true;
           approveBtnLabel = 'Duyệt (PM)';
         } else if ((userRole === 'HR' && l.current_step === 'HR') || userRole === 'Admin') {
@@ -1582,11 +1579,32 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
       }
 
+      // Prevent non-admin self-approval in UI
+      const isMyOwn = Auth.currentUser && Auth.currentUser.employeeId === l.employee_id;
+      if (isMyOwn && userRole !== 'Admin') {
+        canApprove = false;
+      }
+
+      let stepBadge = '';
+      if (l.status === 'Approved' || l.current_step === 'Completed') {
+        stepBadge = '<span class="badge badge-status active"><i class="fas fa-check-circle"></i> Hoàn tất</span>';
+      } else if (l.status === 'Rejected' || l.current_step === 'Rejected') {
+        stepBadge = '<span class="badge badge-status" style="background: rgba(239, 68, 68, 0.15); color: #ef4444;"><i class="fas fa-times-circle"></i> Đã dừng</span>';
+      } else if (l.current_step === 'HR' || l.status === 'Pending HR') {
+        stepBadge = '<span class="badge badge-dept" style="background: rgba(139, 92, 246, 0.15); color: #8b5cf6;"><i class="fas fa-user-tie"></i> Chờ HR duyệt</span>';
+      } else {
+        stepBadge = '<span class="badge badge-status probation"><i class="fas fa-clock"></i> Chờ PM duyệt</span>';
+      }
+
       let statusBadge = `<span class="badge badge-status probation">${l.status}</span>`;
       if (l.status === 'Approved') {
-        statusBadge = `<span class="badge badge-status active"><i class="fas fa-check"></i> Đã duyệt</span>`;
+        statusBadge = `<span class="badge badge-status active"><i class="fas fa-check"></i> Đã duyệt hoàn tất</span>`;
       } else if (l.status === 'Rejected') {
         statusBadge = `<span class="badge badge-status" style="background: rgba(244, 67, 54, 0.15); color: #e53935;"><i class="fas fa-times"></i> Đã từ chối</span>`;
+      } else if (l.status === 'Pending HR' || l.current_step === 'HR') {
+        statusBadge = `<span class="badge badge-status probation" style="color: #8b5cf6;"><i class="fas fa-hourglass-half"></i> Chờ HR duyệt</span>`;
+      } else {
+        statusBadge = `<span class="badge badge-status probation"><i class="fas fa-clock"></i> Chờ PM duyệt</span>`;
       }
 
       let actionHtml = '';
@@ -1600,9 +1618,11 @@ document.addEventListener('DOMContentLoaded', async () => {
           </button>
         `;
       } else if (l.status === 'Approved') {
-        actionHtml = '<i class="fas fa-check-circle" style="color: var(--fpt-green);"></i> Đã hoàn tất';
+        actionHtml = '<span style="color: var(--fpt-green); font-size: 12px; font-weight: 700;"><i class="fas fa-check-circle"></i> Đã hoàn tất</span>';
       } else if (l.status === 'Rejected') {
         actionHtml = '<span style="color:#e53935; font-size:12px;"><i class="fas fa-times-circle"></i> Đã từ chối</span>';
+      } else if (isMyOwn) {
+        actionHtml = '<span style="color:var(--text-light); font-size:12px;"><i class="fas fa-user"></i> Đơn của bạn</span>';
       } else {
         actionHtml = '<span style="color:var(--text-light); font-size:12px;"><i class="fas fa-clock"></i> Chờ duyệt</span>';
       }
@@ -1614,7 +1634,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           <td>${l.start_date ? new Date(l.start_date).toLocaleDateString('vi-VN') : ''} -> ${l.end_date ? new Date(l.end_date).toLocaleDateString('vi-VN') : ''}</td>
           <td><strong>${l.days_count} ngày</strong></td>
           <td>${l.reason || ''}</td>
-          <td><span class="badge badge-status probation">${l.current_step}</span></td>
+          <td>${stepBadge}</td>
           <td>${statusBadge}</td>
           <td>${actionHtml}</td>
         </tr>

@@ -75,7 +75,7 @@ const LeaveController = {
 
       const query = `
         INSERT INTO leave_requests (employee_id, leave_type, start_date, end_date, days_count, reason, status, current_step)
-        VALUES ($1, $2, $3, $4, $5, $6, 'Pending Leader', 'Leader')
+        VALUES ($1, $2, $3, $4, $5, $6, 'Pending PM', 'PM')
         RETURNING *;
       `;
       const result = await db.query(query, [
@@ -84,7 +84,7 @@ const LeaveController = {
 
       res.status(201).json({
         success: true,
-        message: 'Gửi đơn xin nghỉ phép thành công! Đơn đã được chuyển tới Team Leader phê duyệt.',
+        message: 'Gửi đơn xin nghỉ phép thành công! Đơn đã được chuyển tới Project Manager (PM) phê duyệt.',
         data: result.rows[0]
       });
     } catch (error) {
@@ -92,7 +92,7 @@ const LeaveController = {
     }
   },
 
-  // PUT /api/leave/:id/approve (Multi-step approval)
+  // PUT /api/leave/:id/approve (2-Tier Approval: PM -> HR or Admin)
   async approve(req, res, next) {
     try {
       const requestId = req.params.id;
@@ -126,18 +126,23 @@ const LeaveController = {
       let updateQuery = '';
       let message = '';
 
-      if (userRole === 'Team Leader') {
-        updateQuery = `UPDATE leave_requests SET leader_approved = true, status = 'Pending PM', current_step = 'PM' WHERE id = $1 RETURNING *`;
-        message = 'Team Leader đã phê duyệt thành công! Đơn chuyển tới Project Manager.';
-      } else if (userRole === 'Project Manager') {
+      if (userRole === 'Project Manager') {
+        if (request.current_step !== 'PM' && request.current_step !== 'Leader') {
+          return res.status(400).json({ success: false, message: 'Đơn nghỉ phép này hiện không ở bước chờ Project Manager duyệt!' });
+        }
         updateQuery = `UPDATE leave_requests SET pm_approved = true, status = 'Pending HR', current_step = 'HR' WHERE id = $1 RETURNING *`;
-        message = 'PM đã phê duyệt thành công! Đơn chuyển tới HR phê duyệt bước cuối.';
+        message = 'Project Manager (PM) đã phê duyệt thành công! Đơn chuyển tới HR phê duyệt bước cuối.';
       } else if (userRole === 'HR') {
+        if (!request.pm_approved && request.current_step === 'PM') {
+          return res.status(400).json({ success: false, message: 'Đơn nghỉ phép này cần được Project Manager (PM) phê duyệt trước khi chuyển đến HR!' });
+        }
         updateQuery = `UPDATE leave_requests SET hr_approved = true, status = 'Approved', current_step = 'Completed' WHERE id = $1 RETURNING *`;
-        message = 'HR đã duyệt thành công! Đơn phép hoàn tất.';
+        message = 'HR đã phê duyệt thành công! Đơn xin nghỉ phép đã được chấp thuận hoàn tất.';
       } else if (userRole === 'Admin') {
-        updateQuery = `UPDATE leave_requests SET leader_approved = true, pm_approved = true, hr_approved = true, status = 'Approved', current_step = 'Completed' WHERE id = $1 RETURNING *`;
-        message = 'Admin đã phê duyệt toàn diện thành công!';
+        updateQuery = `UPDATE leave_requests SET pm_approved = true, hr_approved = true, status = 'Approved', current_step = 'Completed' WHERE id = $1 RETURNING *`;
+        message = 'Admin đã phê duyệt toàn diện đơn nghỉ phép thành công!';
+      } else {
+        return res.status(403).json({ success: false, message: 'Vai trò của bạn không có quyền phê duyệt đơn nghỉ phép!' });
       }
 
       const result = await db.query(updateQuery, [requestId]);

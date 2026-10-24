@@ -7,7 +7,7 @@ router.use(verifyToken);
 
 router.get('/', LeaveController.getAll);
 router.post('/', LeaveController.create);
-router.put('/:id/approve', requireRoles('Admin', 'HR', 'Project Manager', 'Team Leader'), LeaveController.approve);
-router.put('/:id/reject', requireRoles('Admin', 'HR', 'Project Manager', 'Team Leader'), LeaveController.reject);
+router.put('/:id/approve', requireRoles('Admin', 'HR', 'Project Manager'), LeaveController.approve);
+router.put('/:id/reject', requireRoles('Admin', 'HR', 'Project Manager'), LeaveController.reject);
 
 module.exports = router;
